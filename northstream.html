@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>North Stream Supply</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f7f6f3;--surface:#fff;--border:#e2dfd9;--border2:#ccc9c0;--ink:#1a1915;--ink2:#3a3830;--muted:#7a7870;--light:#a8a69e;--acc:#1d3557;--acc2:#2e4a72;--gold:#b8922a;--gold2:#d4a73a}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.6;overflow-x:hidden;cursor:none}
+.cur{position:fixed;width:10px;height:10px;background:var(--acc);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s}
+.curR{position:fixed;width:36px;height:36px;border:1px solid rgba(29,53,87,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .35s,height .35s,border-color .2s}
+body.hov .cur{width:6px;height:6px;background:var(--gold)}
+body.hov .curR{width:52px;height:52px;border-color:var(--gold)}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:72px;background:rgba(247,246,243,.93);backdrop-filter:blur(20px);border-bottom:1px solid transparent;transition:border-color .4s,box-shadow .4s}
+nav.scrolled{border-color:var(--border);box-shadow:0 2px 32px rgba(26,25,21,.06)}
+.nav-brand{display:flex;align-items:center;text-decoration:none}
+.nav-logo{height:42px;width:auto;object-fit:contain;}
+.nav-links{display:flex;gap:40px;list-style:none}
+.nav-links a{font-size:.82rem;letter-spacing:.06em;color:var(--muted);text-decoration:none;position:relative;transition:color .2s}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--acc);transition:width .3s}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{width:100%}
+.btn-nav{font-size:.8rem;font-weight:500;letter-spacing:.08em;color:#fff;background:var(--acc);padding:10px 24px;text-decoration:none;border-radius:2px;position:relative;overflow:hidden}
+.btn-nav::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateX(-101%);transition:transform .35s cubic-bezier(.76,0,.24,1)}
+.btn-nav:hover::before{transform:translateX(0)}
+.btn-nav span{position:relative;z-index:1;color:#fff}
+.btn-nav:hover span{color:var(--ink)}
+#hero{min-height:100vh;display:grid;grid-template-columns:55% 45%;padding-top:72px;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(29,53,87,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(29,53,87,.04) 1px,transparent 1px);background-size:48px 48px;animation:gridDrift 22s linear infinite;pointer-events:none}
+@keyframes gridDrift{from{background-position:0 0}to{background-position:48px 48px}}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 64px 80px 80px;border-right:1px solid var(--border);position:relative;z-index:2}
+.eyebrow2{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;display:flex;align-items:center;gap:12px;opacity:0;animation:rise .8s ease .1s forwards}
+.eyebrow2::before{content:'';width:32px;height:1px;background:var(--gold)}
+h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,4.8vw,4.6rem);font-weight:400;line-height:1.1;color:var(--ink);margin-bottom:28px;opacity:0;animation:rise .8s ease .25s forwards}
+h1 em{font-style:italic;color:var(--acc)}
+.hero-desc{font-size:1rem;color:var(--muted);line-height:1.8;max-width:440px;margin-bottom:44px;opacity:0;animation:rise .8s ease .4s forwards}
+.hero-btns{display:flex;gap:20px;align-items:center;opacity:0;animation:rise .8s ease .55s forwards}
+.btn-p{font-size:.85rem;font-weight:500;letter-spacing:.06em;color:#fff;background:var(--acc);padding:14px 32px;text-decoration:none;border-radius:2px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.btn-p::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateY(101%);transition:transform .35s cubic-bezier(.76,0,.24,1)}
+.btn-p span{position:relative;z-index:1;color:#fff}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(29,53,87,.25)}
+.btn-p:hover::before{transform:translateY(0)}
+.btn-p:hover span{color:var(--ink)}
+.btn-t{font-size:.85rem;color:var(--ink2);text-decoration:none;display:flex;align-items:center;gap:8px;position:relative}
+.btn-t::after{content:'';position:absolute;bottom:-2px;left:0;width:100%;height:1px;background:var(--border2);transition:background .2s}
+.btn-t:hover{color:var(--acc)}
+.btn-t:hover::after{background:var(--acc)}
+.btn-t .ar{display:inline-block;transition:transform .2s}
+.btn-t:hover .ar{transform:translateX(4px)}
+.hero-right{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 64px;background:var(--surface);position:relative;overflow:hidden}
+.hero-logo-wrap{position:relative;display:flex;flex-direction:column;align-items:center;margin-bottom:56px}
+.rings{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:240px;height:240px;pointer-events:none}
+.ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(29,53,87,.07);animation:rPulse 4s ease-in-out infinite}
+.ring:nth-child(2){inset:-28px;animation-delay:.8s;border-color:rgba(184,146,42,.07)}
+.ring:nth-child(3){inset:-56px;animation-delay:1.6s;border-color:rgba(29,53,87,.04)}
+@keyframes rPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.05);opacity:.5}}
+.hero-logo-img{width:280px;object-fit:contain;mix-blend-mode:multiply;position:relative;z-index:2;opacity:0;animation:logoIn 1s ease .7s forwards}
+@keyframes logoIn{from{opacity:0;transform:scale(.88) translateY(24px)}to{opacity:1;transform:none}}
+.hstats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);width:100%;opacity:0;animation:rise .8s ease 1.1s forwards}
+.hstat{background:var(--surface);padding:22px 18px;transition:background .2s}
+.hstat:hover{background:var(--bg)}
+.hstat-n{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--ink);line-height:1;margin-bottom:4px}
+.hstat-l{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.13em;text-transform:uppercase;color:var(--light)}
+.sw{padding:100px 80px}
+.eyebrow{font-family:'DM Mono',monospace;font-size:.63rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--gold)}
+h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:400;line-height:1.15;color:var(--ink)}
+h2 em{font-style:italic;color:var(--acc)}
+#about{background:var(--surface);border-top:1px solid var(--border)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.about-text p{font-size:.97rem;color:var(--muted);line-height:1.85;margin-bottom:20px}
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+.tag{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);border:1px solid rgba(29,53,87,.22);padding:6px 14px;border-radius:1px;background:rgba(29,53,87,.04);transition:background .2s,border-color .2s,transform .2s}
+.tag:hover{background:rgba(29,53,87,.1);border-color:var(--acc);transform:translateY(-2px)}
+.about-cards{display:flex;flex-direction:column;gap:16px}
+.acard{padding:32px 36px;background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--acc);transition:transform .3s,box-shadow .3s}
+.acard:hover{transform:translateX(6px);box-shadow:-6px 0 0 var(--gold),0 8px 32px rgba(26,25,21,.06)}
+.acard-lbl{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--light);margin-bottom:10px}
+.acard-val{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--ink);line-height:1;margin-bottom:8px}
+.acard-desc{font-size:.84rem;color:var(--muted);line-height:1.65}
+#parent-banner{background:var(--ink);border-top:1px solid rgba(255,255,255,.08)}
+.parent-inner{padding:64px 80px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.parent-label{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold2);margin-bottom:12px}
+.parent-name{font-family:'Playfair Display',serif;font-size:1.8rem;color:#fff;line-height:1.2;margin-bottom:16px}
+.parent-desc{font-size:.9rem;color:rgba(255,255,255,.5);line-height:1.8}
+.parent-pillars{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pillar{padding:18px 22px;border:1px solid rgba(255,255,255,.1);border-left:2px solid var(--gold2);background:rgba(255,255,255,.04);transition:background .3s,border-left-color .3s}
+.pillar:hover{background:rgba(255,255,255,.08);border-left-color:#fff}
+.pillar-title{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);margin-bottom:6px;transition:color .3s}
+.pillar:hover .pillar-title{color:#fff}
+.pillar-desc{font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.6}
+#services{border-top:1px solid var(--border)}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:56px}.svc-grid .svc-card:last-child:nth-child(3n+1){grid-column:span 3}.svc-grid .svc-card:nth-last-child(1):nth-child(3n+1){grid-column:span 3}
+.svc-card{background:var(--surface);padding:40px 36px;position:relative;overflow:hidden;transition:background .3s}
+.svc-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(29,53,87,.05),rgba(184,146,42,.05));opacity:0;transition:opacity .4s}
+.svc-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--acc),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.76,0,.24,1)}
+.svc-card:hover{background:var(--bg)}
+.svc-card:hover::before{opacity:1}
+.svc-card:hover::after{transform:scaleX(1)}
+.svc-card:hover .svc-n,.svc-card:hover .svc-t{color:var(--acc)}
+.svc-n{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.18em;color:var(--gold);margin-bottom:20px;transition:color .3s}
+.svc-t{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:400;color:var(--ink);margin-bottom:14px;line-height:1.3;transition:color .3s}
+.svc-d{font-size:.87rem;color:var(--muted);line-height:1.8;position:relative;z-index:1}
+.strip{background:var(--acc)}
+.strip-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.08)}
+.sstat{padding:48px 32px;background:var(--acc);text-align:center;transition:background .3s}
+.sstat:hover{background:var(--acc2)}
+.sstat-n{font-family:'Playfair Display',serif;font-size:2.4rem;color:#fff;line-height:1;margin-bottom:8px}
+.sstat-l{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.sstat-s{font-size:.75rem;color:rgba(255,255,255,.28);margin-top:6px;line-height:1.4}
+#process{background:var(--surface);border-top:1px solid var(--border)}
+.proc-row{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);margin-top:56px}
+.proc-step{padding:36px 32px;border-right:1px solid var(--border);position:relative;overflow:hidden;transition:background .3s}
+.proc-step::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--acc),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.proc-step:last-child{border-right:none}
+.proc-step:hover{background:var(--bg)}
+.proc-step:hover::before{transform:scaleX(1)}
+.proc-n{font-family:'Playfair Display',serif;font-size:3.5rem;color:var(--border);line-height:1;margin-bottom:20px;transition:color .3s}
+.proc-step:hover .proc-n{color:var(--border2)}
+.proc-t{font-size:.92rem;font-weight:500;color:var(--ink);margin-bottom:10px}
+.proc-d{font-size:.84rem;color:var(--muted);line-height:1.75}
+#why{border-top:1px solid var(--border)}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+.why-card{background:var(--surface);border:1px solid var(--border);padding:40px 36px;position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s,background .3s}
+.why-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(29,53,87,.06),rgba(184,146,42,.04));opacity:0;transition:opacity .4s}
+.why-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--acc),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.76,0,.24,1)}
+.why-card:hover{transform:translateY(-8px);box-shadow:0 24px 56px rgba(26,25,21,.1)}
+.why-card:hover::before{opacity:1}
+.why-card:hover::after{transform:scaleX(1)}
+.why-card:hover .why-t{color:var(--acc)}
+.why-card:hover .why-icon-wrap{transform:scale(1.15) rotate(-8deg);background:var(--acc);border-color:var(--acc)}
+.why-card:hover .why-icon-wrap svg{stroke:white}
+.why-icon-wrap{width:52px;height:52px;border-radius:12px;border:1.5px solid var(--border2);background:var(--bg);display:flex;align-items:center;justify-content:center;margin-bottom:24px;transition:transform .45s cubic-bezier(.34,1.56,.64,1),background .35s,border-color .35s;position:relative;z-index:1}
+.why-icon-wrap svg{width:22px;height:22px;stroke:var(--acc);stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .35s}
+.why-t{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--ink);margin-bottom:12px;transition:color .3s;position:relative;z-index:1}
+.why-d{font-size:.88rem;color:var(--muted);line-height:1.8;position:relative;z-index:1}
+#contact{background:var(--acc);border-top:1px solid var(--border)}
+#contact .sw{display:grid;grid-template-columns:1fr 1fr;gap:80px}
+.ci .eyebrow{color:var(--gold2)}
+.ci .eyebrow::before{background:var(--gold2)}
+.ci h2{color:#fff}
+.ci h2 em{color:var(--gold2)}
+.ci p{font-size:.97rem;color:rgba(255,255,255,.55);line-height:1.8;margin:20px 0 36px}
+.cdetails{display:flex;flex-direction:column;gap:14px}
+.citem{display:flex;gap:20px;align-items:baseline;font-size:.88rem;transition:transform .2s}
+.citem:hover{transform:translateX(4px)}
+.ckey{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold2);min-width:72px}
+.cval{color:rgba(255,255,255,.75)}
+.cval a{color:rgba(255,255,255,.75);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.2);transition:color .2s,border-color .2s}
+.cval a:hover{color:#fff;border-color:#fff}
+.cform{display:flex;flex-direction:column;gap:14px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fg{display:flex;flex-direction:column;gap:6px}
+.fg label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.fg input,.fg select,.fg textarea{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#fff;font-family:'DM Sans',sans-serif;font-size:.88rem;padding:12px 16px;outline:none;border-radius:1px;resize:none;transition:border-color .2s,background .2s}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,.25)}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold2);background:rgba(255,255,255,.1)}
+.fg select option{background:#1d3557}
+.btn-s{font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;letter-spacing:.06em;background:var(--gold2);color:var(--ink);border:none;padding:14px 36px;cursor:pointer;border-radius:2px;align-self:flex-start;margin-top:6px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.btn-s::before{content:'';position:absolute;inset:0;background:#fff;transform:translateX(-101%);transition:transform .35s cubic-bezier(.76,0,.24,1)}
+.btn-s span{position:relative;z-index:1}
+.btn-s:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.2)}
+.btn-s:hover::before{transform:translateX(0)}
+footer{background:var(--ink);padding:40px 80px;display:flex;justify-content:space-between;align-items:center}
+.ftr-logo{height:32px;width:auto;object-fit:contain;opacity:.85}
+.ftr-copy{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:rgba(255,255,255,.25);text-transform:uppercase}
+.ftr-links{display:flex;gap:24px}
+.ftr-links a{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;transition:color .2s}
+.ftr-links a:hover{color:rgba(255,255,255,.7)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media(max-width:960px){
+body{cursor:auto}
+.cur,.curR{display:none}
+nav{padding:0 24px}
+.nav-links{display:none}
+#hero{grid-template-columns:1fr}
+.hero-right{display:none}
+.hero-left{padding:56px 32px;border-right:none}
+.sw{padding:72px 32px}
+.about-grid,.svc-grid,.why-grid{grid-template-columns:1fr}
+.proc-row{grid-template-columns:1fr 1fr;border:none}
+.proc-step{border:1px solid var(--border)}
+.strip-inner{grid-template-columns:1fr 1fr}
+#contact .sw{grid-template-columns:1fr}
+footer{flex-direction:column;gap:16px;text-align:center}
+.frow{grid-template-columns:1fr}
+.parent-inner{grid-template-columns:1fr}
+.parent-pillars{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="cur" id="cur"></div>
+<div class="curR" id="curR"></div>
+<nav id="nav">
+  <a href="#" class="nav-brand"><img class="nav-logo" id="navLogo" src="FullLogo_Transparent_NoBuffer.png" alt="North Stream Supply"></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="btn-nav"><span>Get in Touch</span></a>
+</nav>
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-left">
+    <div class="eyebrow2">Part of NorthStream Group &middot; Abuja, Nigeria</div>
+    <h1>Precision<br>supply for<br><em>critical missions.</em></h1>
+    <p class="hero-desc">North Stream Supply is the procurement and logistics division of NorthStream Group &mdash; delivering verified sourcing, secure delivery, and full compliance for defense, government, and commercial clients across Africa.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-p"><span>Get in Touch</span></a>
+      <a href="#services" class="btn-t">View Capabilities <span class="ar">&#8594;</span></a>
+    </div>
+  </div>
+  <div class="hero-right" id="heroRight">
+    <div class="hero-logo-wrap">
+      <div class="rings"><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
+      <img class="hero-logo-img" id="heroLogo" src="FullLogo_Transparent_NoBuffer.png" alt="North Stream Supply">
+    </div>
+    <div class="hstats">
+      <div class="hstat"><div class="hstat-n">Global</div><div class="hstat-l">Sourcing Network</div></div>
+      <div class="hstat"><div class="hstat-n">72h</div><div class="hstat-l">Target Activation</div></div>
+      <div class="hstat"><div class="hstat-n">Full</div><div class="hstat-l">Compliance Cover</div></div>
+    </div>
+  </div>
+</section>
+<section id="about">
+<div class="sw">
+<div class="about-grid">
+<div class="about-text reveal">
+<div class="eyebrow">About Us</div>
+<h2>Built for the <em>mission.</em><br>Ready from day one.</h2><br>
+<p>North Stream Supply is the procurement and logistics division of <strong>NorthStream Group</strong> &mdash; an Abuja-based defense and government holding company. We bring the Group's deep analytical expertise directly into the supply chain.</p>
+<p>We combine rigorous compliance standards with a commitment to speed &mdash; bridging the gap between complex procurement requirements and the operational urgency our clients face on the ground. Whether defense, government, or commercial, every engagement is handled with the same accountability.</p>
+<p>As a new company, we bring fresh perspective, modern processes, and a long-term commitment to building trust through every engagement &mdash; one contract at a time.</p>
+<div class="tags">
+<span class="tag">ITAR Aware</span><span class="tag">EAR Compliance</span><span class="tag">End-Use Certified</span><span class="tag">Chain of Custody</span><span class="tag">Full Documentation</span>
+</div>
+</div>
+<div class="about-cards reveal" style="transition-delay:.2s">
+<div class="acard"><div class="acard-lbl">// Our Mission</div><div class="acard-val">Reliable.</div><div class="acard-desc">To become the most trusted procurement partner for defense and government clients in Africa &mdash; delivering with speed, integrity, and full regulatory compliance on every contract.</div></div>
+<div class="acard"><div class="acard-lbl">// Our Commitment</div><div class="acard-val">Transparent.</div><div class="acard-desc">Every transaction documented end-to-end. No surprises, no shortcuts &mdash; clear communication and full accountability from brief to final delivery.</div></div>
+</div>
+</div>
+</div>
+</section>
+<section id="parent-banner">
+<div class="parent-inner reveal">
+  <div>
+    <div class="parent-label">Part of NorthStream Group</div>
+    <div class="parent-name">NorthStream<br>Group</div>
+    <p class="parent-desc">North Stream Supply is the procurement and logistics division of NorthStream Group &mdash; a defense and government holding company operating across West Africa. The Group's Strategic Advisory branch delivers the research and analysis that sharpens every supply decision we make.</p>
+  </div>
+  <div class="parent-pillars">
+    <div class="pillar">
+      <div class="pillar-title">Defense Budget Analysis</div>
+      <p class="pillar-desc">Tracking allocations, spending patterns, and procurement cycles across regional defense ministries.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title">ECOWAS Policy Monitoring</div>
+      <p class="pillar-desc">Real-time analysis of regulatory shifts, trade policy changes, and regional security frameworks.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title">Economic Indicators</div>
+      <p class="pillar-desc">Inflation, unemployment, and macro-economic data informing procurement timing and risk.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title">General Logistics Advisory</div>
+      <p class="pillar-desc">End-to-end supply chain strategy, route optimization, and logistics risk assessment.</p>
+    </div>
+  </div>
+</div>
+</section>
+<section id="services">
+<div class="sw">
+<div class="reveal"><div class="eyebrow">Capabilities</div><h2>What we <em>deliver</em></h2></div>
+<div class="svc-grid reveal" style="transition-delay:.15s">
+<div class="svc-card"><div class="svc-n">01</div><div class="svc-t">Equipment Procurement</div><p class="svc-d">Sourcing and acquisition of military-grade hardware, communications systems, protective gear, and tactical platforms through verified international suppliers.</p></div>
+<div class="svc-card"><div class="svc-n">02</div><div class="svc-t">Logistics &amp; Delivery</div><p class="svc-d">Secure, tracked delivery to government facilities, bases, and operational locations with full documentation and chain-of-custody records throughout.</p></div>
+<div class="svc-card"><div class="svc-n">03</div><div class="svc-t">Contract Management</div><p class="svc-d">End-to-end administration from RFQ through delivery &mdash; vendor coordination, documentation, compliance filing, and transparent reporting at every stage.</p></div>
+<div class="svc-card"><div class="svc-n">04</div><div class="svc-t">Inventory &amp; Warehousing</div><p class="svc-d">Secure storage and management of pre-positioned stockpiles, spare parts, and mission-ready equipment kits for rapid deployment when needed.</p></div>
+<div class="svc-card"><div class="svc-n">05</div><div class="svc-t">Compliance &amp; Documentation</div><p class="svc-d">Full regulatory support &mdash; end-use certificates, import/export licensing, and thorough due diligence on every transaction to meet international standards.</p></div>
+<div class="svc-card"><div class="svc-n">06</div><div class="svc-t">Emergency Resupply</div><p class="svc-d">Priority procurement for time-critical requirements. We target sourcing options within 72 hours of receiving your brief &mdash; no unnecessary delays.</p></div>
+</div>
+</div>
+</section>
+<div class="strip">
+<div class="strip-inner">
+<div class="sstat"><div class="sstat-n">Africa</div><div class="sstat-l">Primary Region</div><div class="sstat-s">Headquartered in Abuja, Nigeria</div></div>
+<div class="sstat"><div class="sstat-n">72h</div><div class="sstat-l">Activation Target</div><div class="sstat-s">Brief to sourcing commitment</div></div>
+<div class="sstat"><div class="sstat-n">Zero</div><div class="sstat-l">Non-Compliance</div><div class="sstat-s">Every contract fully documented</div></div>
+<div class="sstat"><div class="sstat-n">Global</div><div class="sstat-l">Supplier Network</div><div class="sstat-s">Verified vendors across key markets</div></div>
+</div>
+</div>
+<section id="process">
+<div class="sw">
+<div class="reveal"><div class="eyebrow">How We Work</div><h2>Our engagement <em>protocol</em></h2></div>
+<div class="proc-row reveal" style="transition-delay:.15s">
+<div class="proc-step"><div class="proc-n">01</div><div class="proc-t">Initial Brief</div><p class="proc-d">Submit requirements via our secure intake form or direct contact. We assess scope, timeline, regulatory context, and sensitivity.</p></div>
+<div class="proc-step"><div class="proc-n">02</div><div class="proc-t">Source &amp; Verify</div><p class="proc-d">We identify qualified vendors, conduct due diligence, and present compliant sourcing options with full documentation &mdash; targeting 72 hours.</p></div>
+<div class="proc-step"><div class="proc-n">03</div><div class="proc-t">Contract &amp; Approve</div><p class="proc-d">All licensing, end-user certificates, and regulatory filings handled before any order is placed. Full transparency at every approval step.</p></div>
+<div class="proc-step"><div class="proc-n">04</div><div class="proc-t">Deliver &amp; Report</div><p class="proc-d">Tracked delivery with real-time updates. Complete post-delivery documentation and chain-of-custody records on completion.</p></div>
+</div>
+</div>
+</section>
+<section id="why">
+<div class="sw">
+<div class="reveal"><div class="eyebrow">Why North Stream</div><h2>What sets us <em>apart</em></h2></div>
+<div class="why-grid">
+<div class="why-card reveal">
+  <div class="why-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+  <div class="why-t">Africa-Focused Expertise</div>
+  <p class="why-d">Based in Abuja, we understand the regulatory landscape, logistics realities, and operational needs of government and defense clients across the African continent.</p>
+</div>
+<div class="why-card reveal" style="transition-delay:.1s">
+  <div class="why-icon-wrap"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+  <div class="why-t">Compliance First</div>
+  <p class="why-d">We don&#8217;t cut corners. Every transaction is built around proper documentation, verified end-use, and full regulatory adherence &mdash; protecting clients at every stage.</p>
+</div>
+<div class="why-card reveal" style="transition-delay:.2s">
+  <div class="why-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+  <div class="why-t">Speed Without Compromise</div>
+  <p class="why-d">Our processes are designed to move fast. A 72-hour sourcing target means your requirements get immediate, focused attention without sacrificing compliance.</p>
+</div>
+<div class="why-card reveal" style="transition-delay:.3s">
+  <div class="why-icon-wrap"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+  <div class="why-t">Discreet &amp; Secure</div>
+  <p class="why-d">All engagements handled with strict confidentiality. Sensitive procurement requirements managed through secure channels with limited exposure.</p>
+</div>
+<div class="why-card reveal" style="transition-delay:.4s">
+  <div class="why-icon-wrap"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+  <div class="why-t">Built for the Long Run</div>
+  <p class="why-d">We&#8217;re not just fulfilling a contract &mdash; we&#8217;re building a reputation. Our goal is to be the procurement partner you call first, every time.</p>
+</div>
+<div class="why-card reveal" style="transition-delay:.5s">
+  <div class="why-icon-wrap"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+  <div class="why-t">Group-Backed Expertise</div>
+  <p class="why-d">Backed by NorthStream Group's Strategic Advisory branch &mdash; defense budget analysis, ECOWAS policy tracking, and economic research that sharpens every procurement decision.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="contact">
+<div class="sw">
+<div class="ci reveal">
+<div class="eyebrow">Contact</div>
+<h2>Start a<br><em>conversation</em></h2>
+<p>Reach out directly or fill in the form and we&#8217;ll respond promptly. For sensitive requirements, we can arrange a more secure line of communication.</p>
+<div class="cdetails">
+<div class="citem"><span class="ckey">Email</span><span class="cval"><a href="mailto:northstreamsupply@gmail.com">northstreamsupply@gmail.com</a></span></div>
+<div class="citem"><span class="ckey">Phone</span><span class="cval"><a href="tel:+2349045146477">+234 904 514 6477</a></span></div>
+<div class="citem"><span class="ckey">Location</span><span class="cval">Abuja, Federal Capital Territory, Nigeria</span></div>
+<div class="citem"><span class="ckey">Hours</span><span class="cval">Mon&ndash;Fri 08:00&ndash;18:00 WAT &middot; Emergency 24/7</span></div>
+</div>
+</div>
+<form id="contactForm" action="https://formspree.io/f/xvzwenro" method="POST" class="cform reveal" style="transition-delay:.2s">
+<div class="frow">
+<div class="fg"><label>Full Name</label><input type="text" name="name" placeholder="Your name" required></div>
+<div class="fg"><label>Organization</label><input type="text" name="organization" placeholder="Agency / Unit / Company"></div>
+</div>
+<div class="fg"><label>Email</label><input type="email" name="email" placeholder="Your email address" required></div>
+<div class="fg"><label>Inquiry Type</label>
+<select name="type">
+  <option value="">Select inquiry type</option>
+  <option>Equipment Procurement</option>
+  <option>Logistics &amp; Delivery</option>
+  <option>Contract Management</option>
+  <option>Emergency Resupply</option>
+  <option>Partnership Inquiry</option>
+  <option>General Inquiry</option>
+</select>
+</div>
+<div class="fg"><label>Requirements</label><textarea name="message" rows="4" placeholder="Briefly describe what you need..." required></textarea></div>
+<button type="submit" class="btn-s" id="submitBtn"><span>Send Message &#8594;</span></button>
+<div id="formStatus" style="margin-top:15px; font-family:'DM Mono'; font-size:0.7rem; color:var(--gold2); display:none;"></div>
+</form>
+</div>
+</section>
+<footer>
+<img class="ftr-logo" id="ftrLogo" src="IconOnly.png" alt="North Stream">
+<div class="ftr-copy">&copy; 2026 North Stream Supply &middot; Part of NorthStream Group &middot; Abuja, Nigeria</div>
+<div class="ftr-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Compliance</a></div>
+</footer>
+<script>
+var cur=document.getElementById('cur');
+var curR=document.getElementById('curR');
+var mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.svc-card,.why-card,.acard,.tag,.sstat,.hstat,.pillar').forEach(function(el){
+  el.addEventListener('mouseenter',function(){document.body.classList.add('hov');});
+  el.addEventListener('mouseleave',function(){document.body.classList.remove('hov');});
+});
+var nav=document.getElementById('nav');
+window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>40);});
+var hr=document.getElementById('heroRight');
+var hl=document.getElementById('heroLogo');
+if(hr&&hl){
+  hr.addEventListener('mousemove',function(e){
+    var r=hr.getBoundingClientRect();
+    var dx=(e.clientX-r.left-r.width/2)/r.width;
+    var dy=(e.clientY-r.top-r.height/2)/r.height;
+    hl.style.transition='transform .1s ease';
+    hl.style.transform='translate('+(dx*20)+'px,'+(dy*14)+'px) scale(1.04)';
+  });
+  hr.addEventListener('mouseleave',function(){
+    hl.style.transition='transform .6s cubic-bezier(.34,1.56,.64,1)';
+    hl.style.transform='';
+  });
+}
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+document.querySelectorAll('.btn-p,.btn-nav,.btn-s').forEach(function(btn){
+  btn.addEventListener('mousemove',function(e){
+    var r=btn.getBoundingClientRect();
+    btn.style.transform='translate('+(e.clientX-r.left-r.width/2)*.22+'px,'+(e.clientY-r.top-r.height/2)*.22+'px)';
+  });
+  btn.addEventListener('mouseleave',function(){btn.style.transform='';});
+});
+
+// FORMSPREE AJAX SUBMISSION
+var form = document.getElementById("contactForm");
+var statusMsg = document.getElementById("formStatus");
+
+form.addEventListener("submit", async function(event) {
+  event.preventDefault();
+  var btn = form.querySelector('.btn-s');
+  var sp = btn.querySelector('span');
+  
+  sp.textContent = 'Sending...';
+  btn.disabled = true;
+
+  var data = new FormData(event.target);
+  fetch(event.target.action, {
+    method: 'POST',
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  }).then(response => {
+    if (response.ok) {
+      sp.textContent = 'Sent ✓';
+      btn.style.background = '#2a8a4a';
+      statusMsg.style.display = "block";
+      statusMsg.textContent = "Thank you. Inquiry received.";
+      form.reset();
+      setTimeout(function(){
+        sp.textContent = 'Send Message →';
+        btn.style.background = '';
+        btn.disabled = false;
+        statusMsg.style.display = "none";
+      }, 5000);
+    } else {
+      statusMsg.style.display = "block";
+      statusMsg.style.color = "#ff4d4d";
+      statusMsg.textContent = "Error: Please check the form and try again.";
+      sp.textContent = 'Error';
+      btn.disabled = false;
+    }
+  }).catch(error => {
+    statusMsg.style.display = "block";
+    statusMsg.textContent = "Network error. Please try again.";
+    btn.disabled = false;
+  });
+});
+</script>
+</body>
+</html>
